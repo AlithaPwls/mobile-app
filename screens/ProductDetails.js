@@ -1,26 +1,18 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import ProductCard from "../components/ProductCard"; // Check of het pad klopt!
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import ProductCard from "../components/ProductCard"; 
 
 const ProductDetails = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Product Details</Text>
 
-      <TouchableOpacity>
-        onPress={() => navigation.navigate("HomeScreen")}
-        <Text style={styles.buttonText}>HomeScreen lol</Text>
-        </TouchableOpacity> 
-
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.row}>
-          {/* Meerdere ProductCards weergeven */}
-          {[...Array(8)].map((_, index) => (
-            <ProductCard key={index} />
-          ))}
+          <ProductCard showButton={false} />
         </View>
       </ScrollView>
+
       <StatusBar style="auto" />
     </View>
   );

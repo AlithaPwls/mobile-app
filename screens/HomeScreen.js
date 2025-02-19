@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import ProductCard from "../components/ProductCard"; // Check of het pad klopt!
+import ProductCard from "../components/ProductCard"; 
 
 
 
@@ -17,7 +17,7 @@ const HomeScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.row}>
           {[...Array(8)].map((_, index) => (
-            <ProductCard key={index} />
+            <ProductCard key={index} navigation={navigation} />
           ))}
         </View>
       </ScrollView>
