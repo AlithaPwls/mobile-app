@@ -1,50 +1,21 @@
-import { StatusBar } from "expo-status-bar";
+import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import ProductCard from "./components/ProductCard";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from "./screens/HomeScreen.js";
+import ProductDetails from "./screens/ProductDetails.js";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>The Collection</Text>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.row}>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </View>
-      </ScrollView>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="ProductDetails" component={ProductDetails} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#eae3c8", 
-    alignItems: "center",
-    paddingTop: 50,
-  },
-  header: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 30,
-    color: "#3e2d22",
-  },
-  scrollContainer: {
-    margin: "auto",
-    paddingBottom: 50, 
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: "90%",
-    gap: 7, 
-  },
-});
+

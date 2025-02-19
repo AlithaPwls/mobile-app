@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: "#fff",
         borderRadius: 10,
-        width: "48%", 
+        width: "47%", 
         paddingVertical: 20,
         paddingHorizontal: 20,
         alignItems: "left",
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
       },
   image: {
     width: "100%",
-    height: 100,
+    height: 150,
     borderRadius: 8,
   },
   title: {
