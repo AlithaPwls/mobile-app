@@ -9,7 +9,7 @@ const ProductDetails = ({ navigation }) => {
 
       <TouchableOpacity>
         onPress={() => navigation.navigate("HomeScreen")}
-        <Text style={styles.buttonText}>HomeScreen</Text>
+        <Text style={styles.buttonText}>HomeScreen lol</Text>
         </TouchableOpacity> 
 
 
