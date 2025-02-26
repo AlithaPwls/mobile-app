@@ -1,16 +1,15 @@
-import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const ProductCard = ({ navigation, showButton = true }) => {
+const ProductCard = ({ title, description, price, image, onPress, showButton = true }) => {
   return (
     <View style={styles.card}>
-      <Image source={require("../images/lamp.jpg")} style={styles.image} />
-      <Text style={styles.title}>Beige Decoration Lamp</Text>
-      <Text style={styles.description}>LED lights in one color</Text>
-      
-      {/* Knop alleen tonen als showButton true is */}
+      <Image source={image} style={styles.image} />
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.price}>{price}</Text>
+
       {showButton && (
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ProductDetails")}>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
           <Text style={styles.buttonText}>Buy Now</Text>
         </TouchableOpacity>
       )}
@@ -22,12 +21,11 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    width: "47%", 
+    width: "47%",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    alignItems: "left",
+    alignItems: "flex-start",
     marginBottom: 15,
-    marginRight: "1%",
   },
   image: {
     width: "100%",
@@ -38,13 +36,16 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "bold",
     marginTop: 10,
-    textAlign: "left",
   },
   description: {
     fontSize: 9,
     color: "#666",
-    textAlign: "left",
     marginVertical: 5,
+  },
+  price: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#3e2d22",
   },
   button: {
     backgroundColor: "#bea395",

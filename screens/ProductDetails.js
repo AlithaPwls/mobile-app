@@ -1,17 +1,44 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState } from "react"; // ✅ Correcte import
 import ProductCard from "../components/ProductCard"; 
 
-const ProductDetails = ({ navigation }) => {
+const ProductDetails = ({ route }) => {
+  const { title, description, price, image } = route.params; // Ontvang de productgegevens
+  const [quantity, setQuantity] = useState(1); // ✅ Correcte useState declaratie
+
+  const increaseQuantity = () => setQuantity(quantity + 1);
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+  const totalPrice = price * quantity;
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Product Details</Text>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.row}>
-          <ProductCard showButton={false} />
-        </View>
-      </ScrollView>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.description}>{description}</Text>
+      <Text style={styles.price}>€{price}</Text>
+
+      <View style={styles.quantityContainer}>
+        <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
+          <Text style={styles.quantityText}>-</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.quantity}>{quantity}</Text>
+
+        <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
+          <Text style={styles.quantityText}>+</Text>
+        </TouchableOpacity>
+
+        <Text style={styles.totalPrice}>Total: ${price * quantity}</Text>
+
+      </View>
+
+      
 
       <StatusBar style="auto" />
     </View>
@@ -31,16 +58,49 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#3e2d22",
   },
-  scrollContainer: {
-    paddingBottom: 50,
-    alignItems: "center",
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#3e2d22",
+    marginTop: 10,
   },
-  row: {
+  description: {
+    fontSize: 16,
+    color: "#666",
+    marginVertical: 5,
+  },
+  price: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#3e2d22",
+  },
+  quantityContainer: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: "150%",
-    gap: 7,
+    alignItems: "center",
+    marginTop: 20,
+    gap: 10,
+  },
+  quantityButton: {
+    backgroundColor: "#3e2d22",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  quantityText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+  },
+  quantity: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#3e2d22",
+  },
+  totalPrice: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#3e2d22",
   },
 });
 
