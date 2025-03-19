@@ -1,66 +1,51 @@
+import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import ProductCard from "../components/ProductCard"; 
 
 const HomeScreen = ({ navigation }) => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch(
+      "https://api.webflow.com/v2/sites/67a51acd25ca407c212b08fe/products?",
+      {
+        headers: {
+          Authorization:
+            "Bearer a7adff386b5cecfe1a0c9e0edc9fb88910f70f91b9bd6a18d522b8988546c0c5",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Volledige API Data:", JSON.stringify(data, null, 2));
+        setProducts(
+          data.items.map((item) => ({
+            id: item.product.id,
+            title: item.product.fieldData.name,
+            subtitle: item.product.fieldData.description,
+            price: item.skus[0]?.fieldData["main-image"]?.url,
+          }))
+        );
+      })
+      .catch((err) => console.error("Error:", err));
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>The Collection</Text>
-
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.row}>
+      <Text style={styles.heading}>Products</Text>
+      <ScrollView style={styles.cardContainer}>
+        {products.map((product) => (
           <ProductCard
-            title="hallo lamp"
-            description="een sfeervol lampje voor in de living"
-            price="90"
-            image={require("../images/lamp.jpg")}
-            onPress={() => navigation.navigate("ProductDetails", {
-              title: "hallo lamp",
-              description: "een sfeervol lampje voor in de living",
-              price: "90",
-              image: require("../images/lamp.jpg"),
-            })}
+            key={product.id}
+            title={product.title}
+            subtitle={product.subtitle}
+            price={product.price}
+            image={product.image}
+            onPress={() => navigation.navigate("ProductDetails", product)}
           />
-          <ProductCard
-            title="moderne stoel"
-            description="comfortabele stoel"
-            price="99"
-            image={require("../images/lamp.jpg")}
-            onPress={() => navigation.navigate("ProductDetails", {
-              title: "moderne stoel",
-              description: "comfortabele stoel",
-              price: "99",
-              image: require("../images/lamp.jpg"),
-            })}
-          />
-          <ProductCard
-            title="stijlvolle vaas"
-            description="perfect voor decoratie"
-            price="19"
-            image={require("../images/lamp.jpg")}
-            onPress={() => navigation.navigate("ProductDetails", {
-              title: "stijlvolle vaas",
-              description: "perfect voor decoratie",
-              price: "19",
-              image: require("../images/lamp.jpg"),
-            })}
-          />
-          <ProductCard
-            title="houten tafel"
-            description="duurzame eettafel"
-            price="550"
-            image={require("../images/lamp.jpg")}
-            onPress={() => navigation.navigate("ProductDetails", {
-              title: "houten tafel",
-              description: "duurzame eettafel",
-              price: "550",
-              image: require("../images/lamp.jpg"),
-            })}
-          />
-        </View>
+        ))}
       </ScrollView>
-
-      <StatusBar style="auto" />
     </View>
   );
 };
