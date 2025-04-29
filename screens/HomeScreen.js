@@ -24,7 +24,8 @@ const HomeScreen = ({ navigation }) => {
             id: item.product.id,
             title: item.product.fieldData.name,
             subtitle: item.product.fieldData.description,
-            price: item.skus[0]?.fieldData["main-image"]?.url,
+            image: {uri: item.skus[0]?.fieldData["main-image"]?.url},
+            price: (item.skus[0]?.fieldData.price.value || 0) / 100,
           }))
         );
       })
