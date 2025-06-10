@@ -1,109 +1,165 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const Cart = ({ route, navigation }) => {
-  const { cartItem } = route.params || {}; 
+const Cart = ({ cartItems, navigation, clearCart, addOrder }) => {
+  const updateQuantity = (productId, delta) => {
+    const index = cartItems.findIndex((item) => item.id === productId);
+    if (index !== -1) {
+      const newQuantity = Math.max(1, cartItems[index].quantity + delta);
+      cartItems[index].quantity = newQuantity;
+      // Force re-render via state update (via parent App state in een echte setup)
+      navigation.setParams({}); // Trigger rerender (simpelste manier)
+    }
+  };
+
+  const totalCartPrice = cartItems
+    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .toFixed(2);
+
+  const handleCheckout = () => {
+    addOrder(cartItems);
+    clearCart();
+    navigation.navigate("Confirmation", { orderedProducts: cartItems, total: totalCartPrice });
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Your Cart</Text>
-      <ScrollView contentContainerStyle={styles.cartList}>
-        {cartItem ? (
-          <View style={styles.cartItem}>
-            <Image source={cartItem.image} style={styles.image} />
-            <View style={styles.itemInfo}>
-              <Text style={styles.title}>{cartItem.title}</Text>
-              <Text style={styles.quantity}>Quantity: {cartItem.quantity}</Text>
-              <Text style={styles.price}>Price per item: €{cartItem.price}</Text>
-              <Text style={styles.totalPrice}>
-                Total: €{(cartItem.quantity * cartItem.price).toFixed(2)}
-              </Text>
-            </View>
-          </View>
-        ) : (
-          <Text style={styles.emptyText}>Your cart is empty.</Text>
-        )}
-      </ScrollView>
+      {cartItems.length === 0 ? (
+        <Text style={styles.empty}>Your cart is empty.</Text>
+      ) : (
+        <>
+          <FlatList
+            data={cartItems}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            renderItem={({ item }) => (
+              <View style={styles.productCard}>
+                <Image source={item.image} style={styles.image} />
+                <View style={styles.info}>
+                  <Text style={styles.title}>{item.title}</Text>
+                  <Text style={styles.price}>
+                    €{item.price} x {item.quantity} = €{(item.price * item.quantity).toFixed(2)}
+                  </Text>
+                  <View style={styles.quantityContainer}>
+                    <TouchableOpacity
+                      onPress={() => updateQuantity(item.id, -1)}
+                      style={styles.quantityButton}
+                    >
+                      <Text style={styles.quantityText}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.quantity}>{item.quantity}</Text>
+                    <TouchableOpacity
+                      onPress={() => updateQuantity(item.id, 1)}
+                      style={styles.quantityButton}
+                    >
+                      <Text style={styles.quantityText}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            )}
+          />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Products")}
-      >
-        <Text style={styles.buttonText}>Check out here</Text>
-      </TouchableOpacity>
+          <Text style={styles.total}>Total: €{totalCartPrice}</Text>
+
+          <TouchableOpacity
+            style={[
+              styles.button,
+              cartItems.length === 0 && { opacity: 0.5 }
+            ]}
+            onPress={handleCheckout}
+            disabled={cartItems.length === 0}
+          >
+            <Text style={styles.buttonText}>Check out here</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#dad3c5",
-    padding: 20,
+  container: { 
+    flex: 1, 
+    backgroundColor: "#f5f3f1", 
+    padding: 20 
   },
-  heading: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#3e2d22",
-    marginBottom: 20,
-    textAlign: "center",
+  heading: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    marginBottom: 20, 
+    color: "#796f62", 
+    textAlign: "center"
   },
-  cartList: {
-    alignItems: "center",
-  },
-  emptyText: {
-    fontSize: 16,
-    color: "#666",
-    textAlign: "center",
-  },
-  cartItem: {
+  productCard: {
     flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f5f3f1",
+    backgroundColor: "#fff",
     padding: 10,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#796f62",
-    marginBottom: 15,
-    width: "90%",
+    marginBottom: 10,
+    alignItems: "center",
   },
-  image: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
-    marginRight: 15,
+  image: { 
+    width: 60, 
+    height: 60, 
+    borderRadius: 8, 
+    marginRight: 10 
   },
-  itemInfo: {
-    flex: 1,
+  info: { 
+    flex: 1 
   },
-  title: {
+  title: { 
+    fontSize: 16, 
+    fontWeight: "bold" 
+  },
+  price: { 
+    fontSize: 14, 
+    color: "#3e2d22", 
+    marginBottom: 5 
+  },
+  quantityContainer: { 
+    flexDirection: "row", 
+    alignItems: "center" 
+  },
+  quantityButton: {
+    backgroundColor: "#796f62",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 50,
+  },
+  quantityText: { 
+    color: "#fff", 
+    fontSize: 18, 
+    fontWeight: "bold" 
+  },
+  quantity: { 
+    fontSize: 16, 
+    marginHorizontal: 10 
+  },
+  total: { 
+    fontSize: 20, 
+    fontWeight: "bold", 
+    marginVertical: 20, 
+    color: "#3e2d22", 
+    textAlign: "center" 
+  },
+  empty: { 
     fontSize: 16,
-    fontWeight: "bold",
-    color: "#3e2d22",
+    color: "#999", 
+    marginBottom: 20, 
+    textAlign: "center" 
   },
-  quantity: {
-    fontSize: 14,
-    color: "#666",
-  },
-  price: {
-    fontSize: 14,
-    color: "#666",
-  },
-  totalPrice: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#3e2d22",
-    marginTop: 5,
+  button: {
+    backgroundColor: "#796f62",
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginTop: 10,
   },
   buttonText: {
-    backgroundColor: "#796f62",
     color: "#fff",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    paddingVertical: 20,
-    borderRadius: 10,
-    textAlign: "center",
-    marginBottom: 20,
   },
 });
 

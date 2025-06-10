@@ -1,156 +1,118 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react"; 
-import ProductCard from "../components/ProductCard"; 
-import { Image } from "react-native"; 
+import React, { useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
+const ProductDetails = ({ route, navigation, addToCart }) => {
+  const { product } = route.params;
+  const [quantity, setQuantity] = useState(1);
 
-
-const ProductDetails = ({ route, navigation }) => {
-  const { title, description, price, image } = route.params; 
-  const [quantity, setQuantity] = useState(1); 
-
-  const increaseQuantity = () => setQuantity(quantity + 1);
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
+  const handleAddToCart = () => {
+    const productWithQuantity = { ...product, quantity };
+    addToCart(productWithQuantity);
+    navigation.navigate("Cart");
   };
-  const totalPrice = price * quantity;
+
+  const totalPrice = (product.price * quantity).toFixed(2);
 
   return (
-<View style={styles.container}>
-  <ScrollView contentContainerStyle={styles.scrollContainer}>
-    <Text style={styles.title}>{title}</Text>
-    <Image source={image} style={styles.image} />
-    <Text style={styles.description}>{description}</Text>
-    <Text style={styles.price}>€{price}</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>{product.title}</Text>
+      <Image source={product.image} style={styles.image} />
 
-    <View style={styles.quantityContainer}>
-      <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
-        <Text style={styles.quantityText}>-</Text>
+      <Text style={styles.price}>€{product.price}</Text>
+
+      {/* Description */}
+      <Text style={styles.description}>{product.description || "No description available."}</Text>
+
+      {/* Aantal selector */}
+      <View style={styles.quantityContainer}>
+        <TouchableOpacity onPress={() => setQuantity(Math.max(1, quantity - 1))} style={styles.quantityButton}>
+          <Text style={styles.quantityText}>-</Text>
+        </TouchableOpacity>
+        <Text style={styles.quantity}>{quantity}</Text>
+        <TouchableOpacity onPress={() => setQuantity(quantity + 1)} style={styles.quantityButton}>
+          <Text style={styles.quantityText}>+</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Totaalprijs */}
+      <Text style={styles.totalPrice}>Total: €{totalPrice}</Text>
+
+      {/* Add to Cart knop */}
+      <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
+        <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
-
-      <Text style={styles.quantity}>{quantity}</Text>
-
-      <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
-        <Text style={styles.quantityText}>+</Text>
-      </TouchableOpacity>
-
- 
-    </View>    
-        <Text style={styles.totalPrice}>Total: €{totalPrice.toFixed(2)}</Text>
-
-    <TouchableOpacity style={styles.addToCartButton} onPress={() =>
-      navigation.navigate("Cart", {
-        cartItem: {
-          id: route.params.id,
-          title,
-          image,
-          quantity,
-          price,
-        },
-      })
-    }>
-       <Text style={styles.addToCartButtonText}>Add to Cart</Text>
-      </TouchableOpacity>
-  </ScrollView>
-
-  <StatusBar style="auto" />
-</View>
-
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  container: { 
+    flexGrow: 1, 
+    padding: 20,  
+    paddingBottom: 100, // To ensure content is not cut off
     backgroundColor: "#f5f3f1",
-    paddingTop: 20,
   },
-
-  scrollContainer: {
-    backgroundColor: "#f5f3f1",
-    alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 80,
-    
-    },
-  title: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#796f62",
-    marginTop: 10,
-    marginBottom: 50,
-  },
-
-  image: {
-    width: "80%",     
-    height: 400,      
+  image: { 
+    width: "100%", 
+    height: 300, 
+    marginBottom: 20,
     borderRadius: 10,
-    marginBottom: 15,
-    borderWidth: 3,
-    borderColor: "#796f62", 
   },
-  
+  title: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    marginBottom: 10, 
+    textAlign: "center", 
+    color: "#796f62",
+  },
+  price: { 
+    fontSize: 20, 
+    color: "#3e2d22", 
+    marginBottom: 10 
+  },
   description: {
     fontSize: 16,
-    color: "#666",
-    width: "80%", 
-    marginVertical: 5,
-  },
-  price: {
-    marginTop: 20,
+    color: "#555",
     marginBottom: 20,
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#3e2d22",
   },
   quantityContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 20,
-    gap: 10,
+    marginBottom: 16,
   },
   quantityButton: {
     backgroundColor: "#796f62",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     borderRadius: 50,
   },
   quantityText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
-  },
-  quantity: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#3e2d22",
-  },
-  totalPrice: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#3e2d22",
-    marginVertical: 50,
-
-  },
-  addToCartButton: {
-    backgroundColor: "#796f62",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginTop: 30,
-    width: "80%", 
-    alignItems: "center",
-  },
-  addToCartButtonText: {
     color: "#fff",
     fontSize: 18,
     fontWeight: "bold",
   },
-  
+  quantity: {
+    fontSize: 18,
+    marginHorizontal: 20,
+  },
+  totalPrice: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#3e2d22",
+  },
+  button: {
+    backgroundColor: "#796f62",
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });
 
 export default ProductDetails;
