@@ -93,6 +93,16 @@ const styles = StyleSheet.create({
     color: "#3e2d22",
     marginTop: 5,
   },
+  buttonText: {
+    backgroundColor: "#796f62",
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingVertical: 20,
+    borderRadius: 10,
+    textAlign: "center",
+    marginBottom: 20,
+  },
 });
 
 export default Cart;

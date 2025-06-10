@@ -89,6 +89,8 @@ const styles = StyleSheet.create({
     height: 400,      // of een andere hoogte
     borderRadius: 10,
     marginBottom: 15,
+    borderWidth: 3,
+    borderColor: "#796f62", // randkleur
   },
   
   description: {
