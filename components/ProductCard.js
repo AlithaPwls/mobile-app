@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     width: "45%",
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    marginVertical: 20,
+    padding: 20,
     alignItems: "center",
   },
   image: {

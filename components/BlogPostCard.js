@@ -4,8 +4,9 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 const BlogPostCard = ({ title, excerpt, image, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.card}>
+            <Text style={styles.title}>{title}</Text>
+
       <Image source={image} style={styles.image} />
-      <Text style={styles.title}>{title}</Text>
       <Text style={styles.excerpt}>{excerpt}</Text>
       <TouchableOpacity onPress={onPress} style={styles.button}>
         <Text style={{ color: "#fff" }}>Read More</Text>
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     width: "90%",
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 15,
+    padding: 25,
     marginVertical: 10,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -36,10 +37,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 5,
+    marginBottom: 15,
+    textAlign: "center",
   },
   excerpt: {
-    fontSize: 16,
+    fontSize: 12,
     color: "#555",
   },
   button: {
