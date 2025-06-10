@@ -10,7 +10,7 @@ const ProductCard = ({ title, description, price, image, onPress, showButton = t
 
       {showButton && (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText}>Buy Now</Text>
+          <Text style={styles.buttonText}>View details</Text>
         </TouchableOpacity>
       )}
     </View>

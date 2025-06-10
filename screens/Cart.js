@@ -1,0 +1,91 @@
+import React from "react";
+import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+
+const Cart = ({ route }) => {
+  const { cartItem } = route.params || {}; 
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.heading}>Your Cart</Text>
+      <ScrollView contentContainerStyle={styles.cartList}>
+        {cartItem ? (
+          <View style={styles.cartItem}>
+            <Image source={cartItem.image} style={styles.image} />
+            <View style={styles.itemInfo}>
+              <Text style={styles.title}>{cartItem.title}</Text>
+              <Text style={styles.quantity}>Quantity: {cartItem.quantity}</Text>
+              <Text style={styles.price}>Price per item: €{cartItem.price}</Text>
+              <Text style={styles.totalPrice}>
+                Total: €{(cartItem.quantity * cartItem.price).toFixed(2)}
+              </Text>
+            </View>
+          </View>
+        ) : (
+          <Text style={styles.emptyText}>Your cart is empty.</Text>
+        )}
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#eae3c8",
+    padding: 20,
+  },
+  heading: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#3e2d22",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  cartList: {
+    alignItems: "center",
+  },
+  emptyText: {
+    fontSize: 16,
+    color: "#666",
+    textAlign: "center",
+  },
+  cartItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 15,
+    width: "90%",
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 8,
+    marginRight: 15,
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#3e2d22",
+  },
+  quantity: {
+    fontSize: 14,
+    color: "#666",
+  },
+  price: {
+    fontSize: 14,
+    color: "#666",
+  },
+  totalPrice: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#3e2d22",
+    marginTop: 5,
+  },
+});
+
+export default Cart;

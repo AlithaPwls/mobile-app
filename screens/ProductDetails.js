@@ -2,8 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react"; // ✅ Correcte import
 import ProductCard from "../components/ProductCard"; 
+import { Image } from "react-native"; // Voeg dit toe bovenaan
 
-const ProductDetails = ({ route }) => {
+
+
+const ProductDetails = ({ route, navigation }) => {
   const { title, description, price, image } = route.params; 
   const [quantity, setQuantity] = useState(1); 
 
@@ -16,33 +19,45 @@ const ProductDetails = ({ route }) => {
   const totalPrice = price * quantity;
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Product Details</Text>
+<View style={styles.container}>
+  <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <Text style={styles.title}>{title}</Text>
+    <Image source={image} style={styles.image} />
+    <Text style={styles.description}>{description}</Text>
+    <Text style={styles.price}>€{price}</Text>
 
-      <Text style={styles.title}>{title}</Text>
-      
-      <Text style={styles.description}>{description}</Text>
-      <Text style={styles.price}>€{price}</Text>
+    <View style={styles.quantityContainer}>
+      <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
+        <Text style={styles.quantityText}>-</Text>
+      </TouchableOpacity>
 
-      <View style={styles.quantityContainer}>
-        <TouchableOpacity onPress={decreaseQuantity} style={styles.quantityButton}>
-          <Text style={styles.quantityText}>-</Text>
-        </TouchableOpacity>
+      <Text style={styles.quantity}>{quantity}</Text>
 
-        <Text style={styles.quantity}>{quantity}</Text>
+      <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
+        <Text style={styles.quantityText}>+</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity onPress={increaseQuantity} style={styles.quantityButton}>
-          <Text style={styles.quantityText}>+</Text>
-        </TouchableOpacity>
+      <Text style={styles.totalPrice}>Total: €{totalPrice.toFixed(2)}</Text>
+ 
+    </View>      
+    <TouchableOpacity style={styles.addToCartButton} onPress={() =>
+      navigation.navigate("Cart", {
+        cartItem: {
+          id: route.params.id,
+          title,
+          image,
+          quantity,
+          price,
+        },
+      })
+    }>
+       <Text style={styles.addToCartButtonText}>Add to Cart</Text>
+      </TouchableOpacity>
+  </ScrollView>
 
-        <Text style={styles.totalPrice}>Total: ${price * quantity}</Text>
+  <StatusBar style="auto" />
+</View>
 
-      </View>
-
-      
-
-      <StatusBar style="auto" />
-    </View>
   );
 };
 
@@ -50,27 +65,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#eae3c8",
-    alignItems: "center",
     paddingTop: 20,
   },
-  header: {
-    fontSize: 30,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#3e2d22",
-  },
+
+  scrollContainer: {
+    backgroundColor: "#eae3c8",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 80,
+    
+    },
   title: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: "bold",
     color: "#3e2d22",
     marginTop: 10,
+    marginBottom: 50,
   },
+
+  image: {
+    width: "80%",     // of een andere breedte die past
+    height: 400,      // of een andere hoogte
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  
   description: {
     fontSize: 16,
     color: "#666",
+    width: "80%", // Zorg ervoor dat de beschrijving niet te breed is
     marginVertical: 5,
   },
   price: {
+    marginTop: 20,
+    marginBottom: 20,
     fontSize: 18,
     fontWeight: "bold",
     color: "#3e2d22",
@@ -103,6 +131,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#3e2d22",
   },
+  addToCartButton: {
+    backgroundColor: "#bea395",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 30,
+    width: "80%", // consistent met je image/description breedte
+    alignItems: "center",
+  },
+  addToCartButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  
 });
 
 export default ProductDetails;

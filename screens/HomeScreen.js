@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Button } from "react-native";
 import ProductCard from "../components/ProductCard"; 
 
 const HomeScreen = ({ navigation }) => {
@@ -23,7 +23,7 @@ const HomeScreen = ({ navigation }) => {
           data.items.map((item) => ({
             id: item.product.id,
             title: item.product.fieldData.name,
-            subtitle: item.product.fieldData.description,
+            description: item.product.fieldData.description,
             image: {uri: item.skus[0]?.fieldData["main-image"]?.url},
             price: (item.skus[0]?.fieldData.price.value || 0) / 100,
           }))
@@ -34,21 +34,24 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Button 
+        title="Go to Blogposts" 
+        onPress={() => navigation.navigate("Blogposts")}
+      />
+
       <Text style={styles.heading}>Products</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              title={product.title}
-              subtitle={product.subtitle}
-              price={product.price}
-              image={product.image}
-              onPress={() => navigation.navigate("ProductDetails", product)}
-            />
-          ))}
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            title={product.title}
+            price={product.price}
+            image={product.image}
+            onPress={() => navigation.navigate("ProductDetails", product)}
+          />
+        ))}
       </ScrollView>
-
-  </View>
+    </View>
   );
 };
 
@@ -74,7 +77,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     gap: 1,
   },
-
 });
 
 export default HomeScreen;
