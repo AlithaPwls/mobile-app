@@ -1,66 +1,54 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 const BlogPostCard = ({ title, excerpt, image, onPress }) => {
-  console.log("IMAGE PROP:", image);
-
   return (
-    <View>
-      <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={styles.card}>
       <Image source={image} style={styles.image} />
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.excerpt}>{excerpt}</Text>
-        <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText}>Read More</Text>
-        </TouchableOpacity>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.excerpt}>{excerpt}</Text>
+      <TouchableOpacity onPress={onPress} style={styles.button}>
+        <Text style={{ color: "#fff" }}>Read More</Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
+    width: "90%",
     backgroundColor: "#fff",
     borderRadius: 10,
-    width: "90%",
-    padding: 20,
-    marginBottom: 15,
-    alignSelf: "center",
+    padding: 15,
+    marginVertical: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   image: {
     width: "100%",
-    height: 150,
-    borderRadius: 8,
+    height: 200,
+    borderRadius: 10,
     marginBottom: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "#3e2d22",
   },
   excerpt: {
-    fontSize: 14,
-    color: "#666",
-    marginBottom: 10,
+    fontSize: 16,
+    color: "#555",
   },
   button: {
-    backgroundColor: "#bea395",
-    paddingVertical: 8,
-    paddingHorizontal: 10,
+    marginTop: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    backgroundColor: "#796f62",
     borderRadius: 5,
     alignItems: "center",
-    alignSelf: "flex-start",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "bold",
   },
 });
 

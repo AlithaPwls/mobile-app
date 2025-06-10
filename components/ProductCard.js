@@ -3,10 +3,11 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 const ProductCard = ({ title, description, price, image, onPress, showButton = true }) => {
   return (
     <View style={styles.card}>
+            <Text style={styles.title}>{title}</Text>
+
       <Image source={image} style={styles.image} />
-      <Text style={styles.title}>{title}</Text>
       <Text style={styles.description}>{description}</Text>
-      <Text style={styles.price}>{price}</Text>
+      <Text style={styles.price}>€{price}</Text>
 
       {showButton && (
         <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -33,9 +34,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   title: {
-    fontSize: 11,
+    fontSize: 16,
     fontWeight: "bold",
-    marginTop: 10,
+    marginVertical: 10,
   },
   description: {
     fontSize: 9,
