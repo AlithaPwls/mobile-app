@@ -15,6 +15,7 @@ const Products = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("price-asc");
 
   useEffect(() => {
     fetch("https://api.webflow.com/v2/sites/67a51acd25ca407c212b08fe/products?", {
@@ -45,10 +46,20 @@ const Products = ({ navigation }) => {
       .catch(console.error);
   }, []);
 
+  // Filteren
   const filteredProducts = products.filter((product) => {
     const categoryMatch = selectedCategory === "" || product.categoryId === selectedCategory;
     const searchMatch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
     return categoryMatch && searchMatch;
+  });
+
+  // Sorteren
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    if (sortOption === "price-asc") return a.price - b.price;
+    if (sortOption === "price-desc") return b.price - a.price;
+    if (sortOption === "name-asc") return a.title.localeCompare(b.title);
+    if (sortOption === "name-desc") return b.title.localeCompare(a.title);
+    return 0;
   });
 
   return (
@@ -62,10 +73,11 @@ const Products = ({ navigation }) => {
         onChangeText={setSearchQuery}
       />
 
+      {/* Categorie Picker */}
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={selectedCategory}
-          onValueChange={(value) => setSelectedCategory(value)}
+          onValueChange={setSelectedCategory}
           style={styles.picker}
           dropdownIconColor="#796f62"
         >
@@ -76,8 +88,23 @@ const Products = ({ navigation }) => {
         </Picker>
       </View>
 
+      {/* Sorteer Picker */}
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={sortOption}
+          onValueChange={setSortOption}
+          style={styles.picker}
+          dropdownIconColor="#796f62"
+        >
+          <Picker.Item label="Price (low to high)" value="price-asc" />
+          <Picker.Item label="Price (high to low)" value="price-desc" />
+          <Picker.Item label="Name (A-Z)" value="name-asc" />
+          <Picker.Item label="Name (Z-A)" value="name-desc" />
+        </Picker>
+      </View>
+
       <FlatList
-        data={filteredProducts}
+        data={sortedProducts}
         keyExtractor={(item) => item.id}
         numColumns={2}
         contentContainerStyle={styles.listContainer}
@@ -121,10 +148,11 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   pickerContainer: {
+    paddingVertical: "-100px",
     backgroundColor: "#fff",
     borderRadius: 8,
-    elevation: 3,
     height: 135,
+    elevation: 3,
     marginBottom: 16,
     overflow: "hidden",
   },

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ScrollView, Text } from "react-native";
+import { StyleSheet, View, ScrollView, Text, TextInput } from "react-native";
 import BlogPostCard from "../components/BlogPostCard";
 
 const Blogposts = ({ navigation }) => {
   const [blogPosts, setBlogPosts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch(
@@ -37,11 +38,25 @@ const Blogposts = ({ navigation }) => {
       .catch((err) => console.error("Error:", err));
   }, []);
 
+  // Filter blogposts op zoekopdracht (in titel of excerpt)
+  const filteredPosts = blogPosts.filter((post) =>
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <View>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Blogposts</Text>
-        {blogPosts.map((post) => (
+    <View style={styles.container}>
+      <Text style={styles.heading}>Blogposts</Text>
+
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search blogposts..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {filteredPosts.map((post) => (
           <BlogPostCard
             key={post.id}
             title={post.title}
@@ -65,16 +80,32 @@ const Blogposts = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 0,
-    alignItems: "center",
+    flex: 1,
     backgroundColor: "#f5f3f1",
+    paddingHorizontal: 16,
+    paddingTop: 20,
     paddingBottom: 60,
   },
   heading: {
-    marginVertical: 20,
     fontSize: 28,
     fontWeight: "bold",
     color: "#3e2d22",
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  searchInput: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#000",
+    marginBottom: 16,
+    width: "90%",
+    alignSelf: "center",
+  },
+  scrollContainer: {
+    alignItems: "center",
   },
 });
 

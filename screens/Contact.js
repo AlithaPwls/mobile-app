@@ -15,7 +15,7 @@ const Contact = () => {
         <View style={styles.outerContainer}>
             <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.heading}>Contact us via the form below & we'll get back to you as soon as we can.</Text>
-                <Text style={styles.label}>you e-mail address:</Text>
+                <Text style={styles.label}>Your e-mail address:</Text>
                 <TextInput
                     style={styles.input}
                     value={email}
