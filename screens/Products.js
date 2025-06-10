@@ -34,7 +34,6 @@ const products = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-  
 
       <Text style={styles.heading}>Products</Text>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -57,7 +56,7 @@ const products = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eae3c8",
+    backgroundColor: "#f5f3f1",
     alignItems: "center",
     paddingTop: 20,
   },
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#3e2d22",
+    color: "#796f62",
   },
   scrollContainer: {
     paddingBottom: 80,

@@ -37,9 +37,10 @@ const ProductDetails = ({ route, navigation }) => {
         <Text style={styles.quantityText}>+</Text>
       </TouchableOpacity>
 
-      <Text style={styles.totalPrice}>Total: €{totalPrice.toFixed(2)}</Text>
  
-    </View>      
+    </View>    
+        <Text style={styles.totalPrice}>Total: €{totalPrice.toFixed(2)}</Text>
+
     <TouchableOpacity style={styles.addToCartButton} onPress={() =>
       navigation.navigate("Cart", {
         cartItem: {
@@ -64,12 +65,12 @@ const ProductDetails = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eae3c8",
+    backgroundColor: "#f5f3f1",
     paddingTop: 20,
   },
 
   scrollContainer: {
-    backgroundColor: "#eae3c8",
+    backgroundColor: "#f5f3f1",
     alignItems: "center",
     paddingTop: 20,
     paddingBottom: 80,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: "bold",
-    color: "#3e2d22",
+    color: "#796f62",
     marginTop: 10,
     marginBottom: 50,
   },
@@ -110,10 +111,10 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   quantityButton: {
-    backgroundColor: "#3e2d22",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    backgroundColor: "#796f62",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 50,
   },
   quantityText: {
     fontSize: 20,
@@ -130,9 +131,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "#3e2d22",
+    marginVertical: 50,
+
   },
   addToCartButton: {
-    backgroundColor: "#bea395",
+    backgroundColor: "#796f62",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

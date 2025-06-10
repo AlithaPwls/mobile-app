@@ -7,6 +7,7 @@ import Products from "./screens/Products.js";
 import ProductDetails from "./screens/ProductDetails.js";
 import Blogposts from "./screens/Blogposts.js";
 import Cart from "./screens/Cart.js";
+import Contact from "./screens/Contact.js"; // Ensure this import is correct
 
 
 const Stack = createStackNavigator();
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="ProductDetails" component={ProductDetails} />
         <Stack.Screen name='Blogposts' component={Blogposts} />
         <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="Contact" component={Contact} />
       </Stack.Navigator>
     </NavigationContainer>
   );

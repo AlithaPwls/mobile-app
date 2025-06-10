@@ -1,9 +1,13 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <ImageBackground 
+      source={require("../images/ca5d84547a90bcb5b1be629b7a2cb85b.jpg")} 
+      style={styles.container}
+      resizeMode="cover"
+    >
       <Text style={styles.heading}>Welcome</Text>
 
       <TouchableOpacity
@@ -19,31 +23,40 @@ const HomeScreen = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Blogposts</Text>
       </TouchableOpacity>
-    </View>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Contact")}
+      >
+        <Text style={styles.buttonText}>Contact</Text>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eae3c8",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
   },
   heading: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#3e2d22",
+    fontSize: 45,
+    fontWeight: "900",
+    color: "#f5f3f1",
     marginBottom: 50,
+    padding: 15,
+    borderRadius: 8,
   },
   button: {
-    backgroundColor: "#bea395",
+    backgroundColor: "#796f62",
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 8,
     marginBottom: 20,
     alignItems: "center",
+    width: "80%", // optional: set button width
   },
   buttonText: {
     color: "#fff",

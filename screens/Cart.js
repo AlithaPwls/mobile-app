@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 
-const Cart = ({ route }) => {
+const Cart = ({ route, navigation }) => {
   const { cartItem } = route.params || {}; 
 
   return (
@@ -24,6 +24,13 @@ const Cart = ({ route }) => {
           <Text style={styles.emptyText}>Your cart is empty.</Text>
         )}
       </ScrollView>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Products")}
+      >
+        <Text style={styles.buttonText}>Check out here</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -31,7 +38,7 @@ const Cart = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eae3c8",
+    backgroundColor: "#dad3c5",
     padding: 20,
   },
   heading: {
@@ -52,7 +59,7 @@ const styles = StyleSheet.create({
   cartItem: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#f5f3f1",
     padding: 10,
     borderRadius: 8,
     marginBottom: 15,
