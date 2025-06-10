@@ -4,8 +4,8 @@ import React, { useState } from "react"; // ✅ Correcte import
 import ProductCard from "../components/ProductCard"; 
 
 const ProductDetails = ({ route }) => {
-  const { title, description, price, image } = route.params; // Ontvang de productgegevens
-  const [quantity, setQuantity] = useState(1); // ✅ Correcte useState declaratie
+  const { title, description, price, image } = route.params; 
+  const [quantity, setQuantity] = useState(1); 
 
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => {
@@ -20,6 +20,7 @@ const ProductDetails = ({ route }) => {
       <Text style={styles.header}>Product Details</Text>
 
       <Text style={styles.title}>{title}</Text>
+      
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.price}>€{price}</Text>
 

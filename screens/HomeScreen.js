@@ -35,19 +35,20 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Products</Text>
-      <ScrollView style={styles.cardContainer}>
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            title={product.title}
-            subtitle={product.subtitle}
-            price={product.price}
-            image={product.image}
-            onPress={() => navigation.navigate("ProductDetails", product)}
-          />
-        ))}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              title={product.title}
+              subtitle={product.subtitle}
+              price={product.price}
+              image={product.image}
+              onPress={() => navigation.navigate("ProductDetails", product)}
+            />
+          ))}
       </ScrollView>
-    </View>
+
+  </View>
   );
 };
 
@@ -58,23 +59,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 20,
   },
-  header: {
+
+  heading: {
     fontSize: 30,
     fontWeight: "bold",
     marginBottom: 20,
     color: "#3e2d22",
   },
   scrollContainer: {
-    paddingBottom: 50,
-    alignItems: "center",
-  },
-  row: {
+    paddingBottom: 80,
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "center",
-    width: "90%",
-    gap: 7,
+    width: "90%", 
+    alignSelf: "center",
+    gap: 1,
   },
+
 });
 
 export default HomeScreen;
