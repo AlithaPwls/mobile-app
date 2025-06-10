@@ -2,17 +2,19 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 const BlogPostCard = ({ title, excerpt, image, onPress }) => {
+  console.log("IMAGE PROP:", image);
+
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
-      {image && (
-        <Image source={image} style={styles.image} />
-      )}
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.excerpt}>{excerpt}</Text>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Read More</Text>
+    <View>
+      <TouchableOpacity style={styles.card} onPress={onPress}>
+      <Image source={image} style={styles.image} />
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.excerpt}>{excerpt}</Text>
+        <TouchableOpacity style={styles.button} onPress={onPress}>
+          <Text style={styles.buttonText}>Read More</Text>
+        </TouchableOpacity>
       </TouchableOpacity>
-    </TouchableOpacity>
+    </View>
   );
 };
 
