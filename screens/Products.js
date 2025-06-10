@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, TextInput } from "react-native";
 import ProductCard from "../components/ProductCard";
 import { Picker } from "@react-native-picker/picker";
 
@@ -14,6 +14,7 @@ const categoryNames = {
 const Products = ({ navigation }) => {
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetch("https://api.webflow.com/v2/sites/67a51acd25ca407c212b08fe/products?", {
@@ -24,49 +25,49 @@ const Products = ({ navigation }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Volledige API Data:", JSON.stringify(data, null, 2));
-
         const mapped = data.items.map((item) => {
           const categoryRaw = item.product.fieldData.category;
           const categoryId = Array.isArray(categoryRaw) && categoryRaw.length > 0 ? categoryRaw[0] : "";
-          console.log("Product:", item.product.fieldData.name, "Category ID:", categoryId);
-
           return {
             id: item.product.id,
             title: item.product.fieldData.name,
             description: item.product.fieldData.description,
             image: {
-              uri:
-                item.skus[0]?.fieldData["main-image"]?.url ||
-                "https://via.placeholder.com/150",
+              uri: item.skus[0]?.fieldData["main-image"]?.url || "https://via.placeholder.com/150",
             },
             price: (item.skus[0]?.fieldData.price.value || 0) / 100,
             categoryId: categoryId,
             categoryName: categoryNames[categoryId] || "Unknown category",
           };
         });
-
         setProducts(mapped);
       })
-      .catch((err) => console.error("Error:", err));
+      .catch(console.error);
   }, []);
 
-  const filteredProducts = selectedCategory
-    ? products.filter((product) => String(product.categoryId) === String(selectedCategory))
-    : products;
+  const filteredProducts = products.filter((product) => {
+    const categoryMatch = selectedCategory === "" || product.categoryId === selectedCategory;
+    const searchMatch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
+    return categoryMatch && searchMatch;
+  });
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Products</Text>
 
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search products..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
+
       <View style={styles.pickerContainer}>
         <Picker
           selectedValue={selectedCategory}
-          onValueChange={(value) => {
-            console.log("Selected Category ID:", value);
-            setSelectedCategory(value);
-          }}
+          onValueChange={(value) => setSelectedCategory(value)}
           style={styles.picker}
+          dropdownIconColor="#796f62"
         >
           <Picker.Item label="All categories" value="" />
           {Object.entries(categoryNames).map(([id, name]) => (
@@ -101,37 +102,41 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f5f3f1",
     paddingTop: 20,
+    paddingHorizontal: 16,
   },
   heading: {
-    fontSize: 30,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
-    alignSelf: "center",
+    textAlign: "center",
+    marginBottom: 16,
     color: "#796f62",
   },
-  pickerContainer: {
-    width: "60%",
-    height: "15%",
-    alignSelf: "center",
-    backgroundColor: "white",
+  searchInput: {
+    backgroundColor: "#fff",
     borderRadius: 8,
-    marginBottom: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    color: "#000",
+    marginBottom: 16,
+  },
+  pickerContainer: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
     elevation: 3,
+    height: 135,
+    marginBottom: 16,
     overflow: "hidden",
-    zIndex: 1000,
   },
   picker: {
     width: "100%",
-    height: 40,
-    color: "#fff",
-    backgroundColor: "white",
-    paddingHorizontal: 0,
+    height: 50,
+    color: "#796f62",
+    backgroundColor: "#fff",
   },
   listContainer: {
     paddingBottom: 80,
-    paddingHorizontal: 20,
   },
 });
-
 
 export default Products;
