@@ -22,11 +22,10 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    width: "80%",
+    width: "45%",
     paddingVertical: 20,
     paddingHorizontal: 20,
-    alignItems: "flex-start",
-    marginBottom: 15,
+    alignItems: "center",
   },
   image: {
     width: "100%",
@@ -37,6 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginVertical: 10,
+    textAlign: "center",
   },
   description: {
     fontSize: 9,

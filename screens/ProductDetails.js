@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from "react-native";
-import React, { useState } from "react"; // ✅ Correcte import
+import React, { useState } from "react"; 
 import ProductCard from "../components/ProductCard"; 
-import { Image } from "react-native"; // Voeg dit toe bovenaan
+import { Image } from "react-native"; 
 
 
 
@@ -85,18 +85,18 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: "80%",     // of een andere breedte die past
-    height: 400,      // of een andere hoogte
+    width: "80%",     
+    height: 400,      
     borderRadius: 10,
     marginBottom: 15,
     borderWidth: 3,
-    borderColor: "#796f62", // randkleur
+    borderColor: "#796f62", 
   },
   
   description: {
     fontSize: 16,
     color: "#666",
-    width: "80%", // Zorg ervoor dat de beschrijving niet te breed is
+    width: "80%", 
     marginVertical: 5,
   },
   price: {
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     marginTop: 30,
-    width: "80%", // consistent met je image/description breedte
+    width: "80%", 
     alignItems: "center",
   },
   addToCartButtonText: {

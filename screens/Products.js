@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     width: "90%", 
     alignSelf: "center",
-    gap: 1,
+    gap: 20,
   },
 });
 
