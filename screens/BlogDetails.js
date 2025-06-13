@@ -9,17 +9,17 @@ const BlogDetails = ({ route }) => {
     .replace(/<[^>]*>?/gm, ''); // Verwijder alle HTML tags
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}> 
+    <View style={{ flex: 1, backgroundColor: '#fff' }}> 
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.excerpt}>{excerpt}</Text>
         <Image
-          source={{ uri: image.uri }}
+          source={{ uri: image.uri }} 
           style={{ width: '100%', height: 300, marginBottom: 16, borderRadius: 10 }}
         />
         <Text style={styles.body}>{cleanBody}</Text>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 

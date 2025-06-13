@@ -1,17 +1,17 @@
 import React from "react";
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const OrderHistory = ({ orders }) => {
+const OrderHistory = ({ orders, navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Order History</Text>
-      {orders.length === 0 ? (
+      {orders.length === 0 ? ( //kijk of er orders zijn
         <Text style={styles.empty}>No orders yet.</Text>
       ) : (
         <FlatList
           data={orders.flat()} // flatten array of arrays
           keyExtractor={(item, index) => item.id + "-" + index}
-          renderItem={({ item }) => (
+          renderItem={({ item }) => ( // render de items in de lijst
             <View style={styles.productCard}>
               <Image source={item.image} style={styles.image} />
               <View style={styles.info}>
@@ -22,6 +22,12 @@ const OrderHistory = ({ orders }) => {
           )}
         />
       )}
+            <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Products")}
+      >
+        <Text style={styles.buttonText}>Back to Products</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -67,6 +73,20 @@ const styles = StyleSheet.create({
   empty: {
     fontSize: 16,
     color: "#999",
+    textAlign: "center",
+  },
+  button: {
+    backgroundColor: "#796f62",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 20,
+    alignItems: "center",
+  },
+  buttonText: { 
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
     textAlign: "center",
   },
 });

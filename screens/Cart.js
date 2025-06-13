@@ -37,8 +37,8 @@ const Cart = ({ cartItems, navigation, clearCart, addOrder }) => {
                 <View style={styles.info}>
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.price}>
-  €{item.price} x {item.quantity} = €{(item.price * item.quantity).toFixed(2)}
-</Text>
+                     €{item.price} x {item.quantity} = €{(item.price * item.quantity).toFixed(2)}
+                  </Text>
 
                   <View style={styles.quantityContainer}>
                     <TouchableOpacity

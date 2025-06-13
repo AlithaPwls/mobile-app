@@ -71,10 +71,11 @@ const App = () => { //component app aanmaken, is hoofddeel van de hele app
         </Stack.Screen>
         <Stack.Screen name="Confirmation" component={Confirmation} />
         <Stack.Screen name="OrderHistory">
-          {(props) => (
-            <OrderHistory {...props} orders={orders} /> //tzelfde
-          )}
-        </Stack.Screen>
+  {(props) => (
+    <OrderHistory {...props} orders={orders} />
+  )}
+</Stack.Screen>
+
       </Stack.Navigator> 
     </NavigationContainer>
   );

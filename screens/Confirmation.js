@@ -26,6 +26,12 @@ const Confirmation = ({ route, navigation }) => {
       <Text style={styles.total}>Total: €{total}</Text>
       <TouchableOpacity
         style={styles.button}
+        onPress={() => navigation.navigate("OrderHistory")}
+      >
+        <Text style={styles.buttonText}>order history</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => navigation.navigate("Products")}
       >
         <Text style={styles.buttonText}>Back to Products</Text>

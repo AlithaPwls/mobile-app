@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, View, ScrollView, Text, TextInput, TouchableOpacity } from "react-native";
 
-const Contact = () => {
-    const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+const Contact = () => { // Contact component aanmaken
+    const [email, setEmail] = useState(""); // State voor e-mail
+    const [message, setMessage] = useState(""); // State voor bericht
 
     const handleSend = () => {
         // Logic to send the message
@@ -28,8 +28,8 @@ const Contact = () => {
                     style={[styles.input, styles.messageInput]}
                     value={message}
                     onChangeText={setMessage}
-                    multiline
-                    numberOfLines={4}
+                    multiline // Toestaan voor meerdere regels
+                    numberOfLines={4} // Aantal regels dat zichtbaar is
                     placeholder="Type your message here"
                 />
                 <TouchableOpacity style={styles.button} onPress={handleSend}>
