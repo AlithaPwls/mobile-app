@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const ProductCard = ({ title, description, price, image, onPress, showButton = true }) => {
-  return (
+const ProductCard = ({ title, description, price, image, onPress, showButton = true }) => { //component aanmaken
+  return ( //eigenschappen of props meegeven aan de productcard
     <View style={styles.card}>
             <Text style={styles.title}>{title}</Text>
 
@@ -9,10 +9,10 @@ const ProductCard = ({ title, description, price, image, onPress, showButton = t
       <Text style={styles.description}>{description}</Text>
       <Text style={styles.price}>€{price}</Text>
 
-      {showButton && (
+      {showButton && ( //toon knop enkel als showButton true is
         <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={styles.buttonText}>View details</Text>
-        </TouchableOpacity>
+          <Text style={styles.buttonText}>View details</Text> 
+        </TouchableOpacity> //onpress in de functie die wordt uitgevoerd als je op de knop drukt
       )}
     </View>
   );
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductCard;
+export default ProductCard; //maakt component beschikbaar voor andere bestanden

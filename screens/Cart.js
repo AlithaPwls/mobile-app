@@ -1,45 +1,45 @@
 import React from "react";
 import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const Cart = ({ cartItems, navigation, clearCart, addOrder }) => {
-  const updateQuantity = (productId, delta) => {
-    const index = cartItems.findIndex((item) => item.id === productId);
-    if (index !== -1) {
-      const newQuantity = Math.max(1, cartItems[index].quantity + delta);
-      cartItems[index].quantity = newQuantity;
-      // Force re-render via state update (via parent App state in een echte setup)
-      navigation.setParams({}); // Trigger rerender (simpelste manier)
+const Cart = ({ cartItems, navigation, clearCart, addOrder }) => { 
+  const updateQuantity = (productId, delta) => { // Verhoog of verlaag de hoeveelheid van een product in de winkelwagen
+    const index = cartItems.findIndex((item) => item.id === productId); // Vind de index van het product in de winkelwagen
+    if (index !== -1) { // Product gevonden
+      const newQuantity = Math.max(1, cartItems[index].quantity + delta); // Zorg ervoor dat de hoeveelheid niet onder 1 gaat
+      cartItems[index].quantity = newQuantity; // Update de hoeveelheid van het product
+      navigation.setParams({}); // Forceer een refresh van het scherm om de bijgewerkte hoeveelheid weer te geven
     }
   };
 
-  const totalCartPrice = cartItems
-    .reduce((sum, item) => sum + item.price * item.quantity, 0)
-    .toFixed(2);
+  const totalCartPrice = cartItems // Bereken de totale prijs van alle producten in de winkelwagen
+    .reduce((sum, item) => sum + item.price * item.quantity, 0) 
+    .toFixed(2); // Formatteer de totale prijs naar 2 decimalen
 
-  const handleCheckout = () => {
-    addOrder(cartItems);
-    clearCart();
-    navigation.navigate("Confirmation", { orderedProducts: cartItems, total: totalCartPrice });
+  const handleCheckout = () => { // Verwerk de checkout
+    addOrder(cartItems); // Voeg de huidige winkelwagen toe aan de lijst van bestellingen
+    clearCart(); // Maak de winkelwagen leeg na de bestelling
+    navigation.navigate("Confirmation", { orderedProducts: cartItems, total: totalCartPrice }); // Navigeer naar het bevestigingsscherm met de bestelde producten en totale prijs
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Your Cart</Text>
-      {cartItems.length === 0 ? (
+      {cartItems.length === 0 ? ( // Controleer of de winkelwagen leeg is
         <Text style={styles.empty}>Your cart is empty.</Text>
       ) : (
         <>
-          <FlatList
-            data={cartItems}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            renderItem={({ item }) => (
+          <FlatList // Render de producten in de winkelwagen
+            data={cartItems} // De lijst van producten in de winkelwagen
+            keyExtractor={(item, index) => `${item.id}-${index}`} // Gebruik een unieke key voor elk item
+            renderItem={({ item }) => ( // Render elk product als een kaart
               <View style={styles.productCard}>
                 <Image source={item.image} style={styles.image} />
                 <View style={styles.info}>
                   <Text style={styles.title}>{item.title}</Text>
                   <Text style={styles.price}>
-                    €{item.price} x {item.quantity} = €{(item.price * item.quantity).toFixed(2)}
-                  </Text>
+  €{item.price} x {item.quantity} = €{(item.price * item.quantity).toFixed(2)}
+</Text>
+
                   <View style={styles.quantityContainer}>
                     <TouchableOpacity
                       onPress={() => updateQuantity(item.id, -1)}
@@ -65,10 +65,10 @@ const Cart = ({ cartItems, navigation, clearCart, addOrder }) => {
           <TouchableOpacity
             style={[
               styles.button,
-              cartItems.length === 0 && { opacity: 0.5 }
+              cartItems.length === 0 && { opacity: 0.5 } // Maak de knop grijs als de winkelwagen leeg is
             ]}
             onPress={handleCheckout}
-            disabled={cartItems.length === 0}
+            disabled={cartItems.length === 0} // Deactiveer de knop als de winkelwagen leeg is
           >
             <Text style={styles.buttonText}>Check out here</Text>
           </TouchableOpacity>

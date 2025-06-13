@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
-const BlogPostCard = ({ title, excerpt, image, onPress }) => {
+const BlogPostCard = ({ title, excerpt, image, onPress }) => { //component aanmaken
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Image source={image} style={styles.image} />
       <Text style={styles.excerpt}>{excerpt}</Text>
-      <TouchableOpacity onPress={onPress} style={styles.button}>
+      <TouchableOpacity onPress={onPress} style={styles.button}> 
         <Text style={{ color: "#fff" }}>Read More</Text>
       </TouchableOpacity>
     </View>
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BlogPostCard;
+export default BlogPostCard; //export default BlogPostCard;

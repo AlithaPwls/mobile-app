@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; // Import React en useEffect, useState hooks
 import { StyleSheet, View, ScrollView, Text, TextInput } from "react-native";
-import BlogPostCard from "../components/BlogPostCard";
+import BlogPostCard from "../components/BlogPostCard"; //importeren van blogpostcard component
 
-const Blogposts = ({ navigation }) => {
-  const [blogPosts, setBlogPosts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+const Blogposts = ({ navigation }) => { // Blogposts component
+  const [blogPosts, setBlogPosts] = useState([]); // State voor blogposts
+  const [searchQuery, setSearchQuery] = useState(""); // State voor zoekopdracht
 
-  useEffect(() => {
+  useEffect(() => { // useEffect om data op te halen bij het laden van de component
     fetch(
       "https://api.webflow.com/v2/sites/67a51acd25ca407c212b08fe/collections/67c048dba622c5bc02bfb659/items",
-      {
+      { // API endpoint voor blogposts
         headers: {
           Authorization:
             "Bearer a7adff386b5cecfe1a0c9e0edc9fb88910f70f91b9bd6a18d522b8988546c0c5",
-        },
+        }, // Authenticatie header met API sleutel
       }
     )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Volledige API Data:", JSON.stringify(data, null, 2));
+      .then((res) => res.json()) // Response omzetten naar JSON
+      .then((data) => { // Data verwerken
+        console.log("Volledige API Data:", JSON.stringify(data, null, 2));// Log de volledige data voor debugging
 
-        setBlogPosts(
-          data.items.map((item) => ({
-            id: item._id || item.id,
-            title: item.fieldData?.name || "Untitled",
-            excerpt:
+        setBlogPosts( // Zet de blogposts in de state
+          data.items.map((item) => ({   // Map de items naar een bruikbaar formaat
+            id: item._id || item.id, // Gebruik _id of id als unieke identifier
+            title: item.fieldData?.name || "Untitled", // Titel van de blogpost, standaard "Untitled" als niet beschikbaar
+            excerpt: // Samenvatting van de blogpost, standaard tekst als niet beschikbaar
               item.fieldData?.["post-summary"] || "No excerpt available.",
             body: item.fieldData?.["post-body"] || "No post body available.",
             image: {
               uri:
-                item.fieldData?.["main-image"]?.url ||
+                item.fieldData?.["main-image"]?.url || // URL van de afbeelding, standaard placeholder als niet beschikbaar
                 "https://via.placeholder.com/300",
             },
           }))
@@ -39,9 +39,9 @@ const Blogposts = ({ navigation }) => {
   }, []);
 
   // Filter blogposts op zoekopdracht (in titel of excerpt)
-  const filteredPosts = blogPosts.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredPosts = blogPosts.filter((post) => //zoek de blogposts die overeenkomen met de zoekopdracht
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) || // Controleer of de titel overeenkomt met de zoekopdracht
+    post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) // Controleer of de excerpt (of samenvatting) overeenkomt met de zoekopdracht
   );
 
   return (
@@ -63,12 +63,12 @@ const Blogposts = ({ navigation }) => {
             excerpt={post.excerpt}
             body={post.body}
             image={post.image}
-            onPress={() =>
-              navigation.navigate("BlogDetails", {
-                title: post.title,
-                excerpt: post.excerpt,
-                image: post.image,
-                body: post.body,
+            onPress={() => // Navigeren naar de details van de blogpost
+              navigation.navigate("BlogDetails", { 
+                title: post.title, //geef de titel van de blogpost door
+                excerpt: post.excerpt, //geef de samenvatting van de blogpost door
+                image: post.image,  //geef de afbeelding van de blogpost door
+                body: post.body,  //geef de inhoud van de blogpost door
               })
             }
           />
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Blogposts;
+export default Blogposts; // Export de Blogposts component zodat deze gebruikt kan worden in andere delen van de app

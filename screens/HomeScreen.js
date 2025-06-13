@@ -1,32 +1,32 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from "react-native";
+import React from "react"; //om react componenten te kunnen gebruiken
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from "react-native"; //importeren van de nodige onderdelen
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation }) => { //navigation prop uit de standaardprops halen
   return (
     <ImageBackground 
       source={require("../images/ca5d84547a90bcb5b1be629b7a2cb85b.jpg")} 
       style={styles.container}
-      resizeMode="cover"
+      resizeMode="cover" //bgi instellen
     >
       <Text style={styles.heading}>Welcome</Text>
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Products")}
+        onPress={() => navigation.navigate("Products")} //navigate naar Products scherm
       >
         <Text style={styles.buttonText}>Products</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Blogposts")}
+        onPress={() => navigation.navigate("Blogposts")} //navigate naar Blogposts scherm
       >
         <Text style={styles.buttonText}>Blogposts</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate("Contact")}
+        onPress={() => navigation.navigate("Contact")} //navigate naar Contact scherm
       >
         <Text style={styles.buttonText}>Contact</Text>
       </TouchableOpacity>
@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({ //stijlen of opmaak maken zoals css maar dan in javascript
   container: {
     flex: 1,
     alignItems: "center",
@@ -65,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default HomeScreen; //zorg ervoor dat andere pagina's dit kunnen importeren

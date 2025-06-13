@@ -1,43 +1,48 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; //om aantal stukken te kunnen bijhouden
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
-const ProductDetails = ({ route, navigation, addToCart }) => {
-  const { product } = route.params;
-  const [quantity, setQuantity] = useState(1);
+const ProductDetails = ({ route, navigation, addToCart }) => { // Haal de route en navigation props op
+  const { product } = route.params; // Haal het product op uit de route parameters
+  const [quantity, setQuantity] = useState(1); // Stel de initiële hoeveelheid in op 1
 
-  const handleAddToCart = () => {
-    const productWithQuantity = { ...product, quantity };
-    addToCart(productWithQuantity);
-    navigation.navigate("Cart");
+  const handleAddToCart = () => { // Functie om het product toe te voegen aan de winkelwagen
+    const productWithQuantity = { ...product, quantity }; // Voeg de hoeveelheid toe aan het product object
+    addToCart(productWithQuantity); // Roep de addToCart functie aan die is doorgegeven als prop
+    navigation.navigate("Cart"); // Navigeer naar het winkelwagen scherm na het toevoegen
   };
 
-  const totalPrice = (product.price * quantity).toFixed(2);
+  const totalPrice = (product.price * quantity).toFixed(2); // Bereken de totale prijs op basis van de hoeveelheid en prijs van het product
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>{product.title}</Text>
-      <Image source={product.image} style={styles.image} />
+    <ScrollView contentContainerStyle={styles.container}> 
+<Text style={styles.title}>{String(product.title)}</Text>
+{product.image?.uri ? (
+  <Image source={{ uri: product.image.uri }} style={styles.image} />
+) : (
+  <Text style={{ color: "red" }}>Afbeelding niet beschikbaar</Text>
+)}
 
-      <Text style={styles.price}>€{product.price}</Text>
+<Text style={styles.price}>€{Number(product.price).toFixed(2)}</Text>
 
-      {/* Description */}
-      <Text style={styles.description}>{product.description || "No description available."}</Text>
+      <Text style={styles.description}>
+  {typeof product.description === "string"
+    ? product.description
+    : "No description available."}
+</Text>
 
-      {/* Aantal selector */}
       <View style={styles.quantityContainer}>
-        <TouchableOpacity onPress={() => setQuantity(Math.max(1, quantity - 1))} style={styles.quantityButton}>
+        <TouchableOpacity onPress={() => setQuantity(Math.max(1, quantity - 1))} style={styles.quantityButton}> 
           <Text style={styles.quantityText}>-</Text>
         </TouchableOpacity>
         <Text style={styles.quantity}>{quantity}</Text>
-        <TouchableOpacity onPress={() => setQuantity(quantity + 1)} style={styles.quantityButton}>
+        <TouchableOpacity onPress={() => setQuantity(quantity + 1)} style={styles.quantityButton}> 
           <Text style={styles.quantityText}>+</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Totaalprijs */}
       <Text style={styles.totalPrice}>Total: €{totalPrice}</Text>
 
-      {/* Add to Cart knop */}
+      
       <TouchableOpacity style={styles.button} onPress={handleAddToCart}>
         <Text style={styles.buttonText}>Add to Cart</Text>
       </TouchableOpacity>
@@ -115,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductDetails;
+export default ProductDetails; // Zorg ervoor dat dit bestand wordt geëxporteerd als de standaard export

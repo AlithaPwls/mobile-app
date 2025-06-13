@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native';
 
 const BlogDetails = ({ route }) => {
-  const { title, excerpt, image, body } = route.params;
+  const { title, excerpt, image, body } = route.params; // Haal de parameters uit de route
 
   const cleanBody = body
-    .replace(/<\/p>/gi, '\n\n')
-    .replace(/<[^>]*>?/gm, '');
+    .replace(/<\/p>/gi, '\n\n') // Vervang </p> tags door nieuwe regels
+    .replace(/<[^>]*>?/gm, ''); // Verwijder alle HTML tags
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}> 
       <ScrollView style={styles.container}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.excerpt}>{excerpt}</Text>
